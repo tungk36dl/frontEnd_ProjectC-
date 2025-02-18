@@ -1,24 +1,34 @@
-import logo from './logo.svg';
 import './App.css';
+import Header from './Components/Header';
+import Home from './Components/Home';
+import LoginSignup from './Components/LoginSignup';
+import TableScore from './Components/TableScore';
+import TableUser from './Components/TableUser';
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import Cohort from './Components/Cohort';
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('jwtToken');
+    if (token) {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header />
+      <Routes>
+        <Route path="/" element={isAuthenticated ? <Navigate to="/home" /> : <Navigate to="/login" />} />
+        <Route path="/login" element={<LoginSignup setIsAuthenticated={setIsAuthenticated} />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/student" element={<TableUser />} />
+        <Route path="/cohort" element={<Cohort />} />
+      </Routes>
+    </>
   );
 }
 
