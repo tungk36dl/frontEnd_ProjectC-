@@ -6,8 +6,9 @@ import TableScore from './Components/TableScore';
 import TableUser from './Components/TableUser';
 import Logout from './Components/Logout';  // ✅ Import component Logout
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useEffect, useState } from 'react';
-import Cohort from './Components/Cohort';
+import { useEffect, useState } from "react";
+import Cohort from "./Components/Cohort";
+// import Cohort from "./Components/Cohort/Cohort";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -23,8 +24,16 @@ function App() {
       <Header setIsAuthenticated={setIsAuthenticated} />
 
       <Routes>
-        <Route path="/" element={isAuthenticated ? <Navigate to="/home" /> : <Navigate to="/login" />} />
-        <Route path="/login" element={<LoginSignup setIsAuthenticated={setIsAuthenticated} />} />
+        <Route
+          path="/"
+          element={
+            isAuthenticated ? <Navigate to="/home" /> : <Navigate to="/login" />
+          }
+        />
+        <Route
+          path="/login"
+          element={<LoginSignup setIsAuthenticated={setIsAuthenticated} />}
+        />
         <Route path="/home" element={<Home />} />
         <Route path="/student" element={<TableUser />} />
         <Route path="/cohort" element={<Cohort />} />
