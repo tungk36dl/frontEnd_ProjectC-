@@ -1,38 +1,18 @@
-import * as React from "react";
-import PropTypes from "prop-types";
-import { alpha } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import TableSortLabel from "@mui/material/TableSortLabel";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
-import Checkbox from "@mui/material/Checkbox";
-import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
-import DeleteIcon from "@mui/icons-material/Delete";
-import FilterListIcon from "@mui/icons-material/FilterList";
-import { visuallyHidden } from "@mui/utils";
-import DropdownMenu from "../Dropdown";
-import { dividerClasses } from "@mui/material";
+import React, { useState, useMemo } from "react";
 
-function createData(id, name, email, phone, address, age, className) {
-  return { id, name, email, phone, address, age, className };
+const classOptions = ["Tất cả", "12A1", "12A2", "11B1", "12A3"];
+
+function createData(id, name, email, phone, code, address, age, className) {
+  return { id, name, email, phone, code, address, age, className };
 }
+
 const rows = [
   createData(
     1,
     "Nguyễn Văn A",
     "a@gmail.com",
     "0123456789",
+    "16TH402201",
     "Hà Nội",
     20,
     "12A1"
@@ -42,16 +22,37 @@ const rows = [
     "Trần Thị B",
     "b@gmail.com",
     "0987654321",
+    "16TH402201",
     "Hồ Chí Minh",
     21,
     "12A2"
   ),
-  createData(3, "Lê Văn C", "c@gmail.com", "0345678912", "Đà Nẵng", 19, "11B1"),
+  createData(
+    3,
+    "Lê Văn C",
+    "c@gmail.com",
+    "0345678912",
+    "16TH402201",
+    "Đà Nẵng",
+    19,
+    "11B1"
+  ),
   createData(
     4,
     "Phạm Thị D",
     "d@gmail.com",
     "0765432198",
+    "16TH402201",
+    "Cần Thơ",
+    22,
+    "12A3"
+  ),
+  createData(
+    4,
+    "Phạm Thị D",
+    "d@gmail.com",
+    "0765432198",
+    "16TH402201",
     "Cần Thơ",
     22,
     "12A3"
@@ -61,6 +62,7 @@ const rows = [
     "Phạm Thị D",
     "d@gmail.com",
     "0765432198",
+    "16TH402201",
     "Cần Thơ",
     22,
     "12A3"
@@ -70,6 +72,7 @@ const rows = [
     "Phạm Thị D",
     "d@gmail.com",
     "0765432198",
+    "16TH402201",
     "Cần Thơ",
     22,
     "12A3"
@@ -79,6 +82,7 @@ const rows = [
     "Phạm Thị D",
     "d@gmail.com",
     "0765432198",
+    "16TH402201",
     "Cần Thơ",
     22,
     "12A3"
@@ -88,6 +92,7 @@ const rows = [
     "Phạm Thị D",
     "d@gmail.com",
     "0765432198",
+    "16TH402201",
     "Cần Thơ",
     22,
     "12A3"
@@ -97,6 +102,7 @@ const rows = [
     "Phạm Thị D",
     "d@gmail.com",
     "0765432198",
+    "16TH402201",
     "Cần Thơ",
     22,
     "12A3"
@@ -106,6 +112,7 @@ const rows = [
     "Phạm Thị D",
     "d@gmail.com",
     "0765432198",
+    "16TH402201",
     "Cần Thơ",
     22,
     "12A3"
@@ -115,6 +122,7 @@ const rows = [
     "Phạm Thị D",
     "d@gmail.com",
     "0765432198",
+    "16TH402201",
     "Cần Thơ",
     22,
     "12A3"
@@ -124,6 +132,7 @@ const rows = [
     "Phạm Thị D",
     "d@gmail.com",
     "0765432198",
+    "16TH402201",
     "Cần Thơ",
     22,
     "12A3"
@@ -133,320 +142,152 @@ const rows = [
     "Phạm Thị D",
     "d@gmail.com",
     "0765432198",
+    "16TH402201",
     "Cần Thơ",
     22,
     "12A3"
   ),
 ];
 
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator(order, orderBy) {
-  return order === "desc"
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
 const headCells = [
-  { id: "name", label: "Tên Sinh Viên", numeric: false },
-  { id: "email", label: "Email", numeric: false },
-  { id: "phone", label: "Số Điện Thoại", numeric: false },
-  { id: "address", label: "Địa Chỉ", numeric: false },
-  { id: "age", label: "Tuổi", numeric: true },
-  { id: "className", label: "Lớp", numeric: false },
+  { id: "code", label: "Code" },
+  { id: "name", label: "Tên Sinh Viên" },
+  { id: "email", label: "Email" },
+  { id: "phone", label: "Số Điện Thoại" },
+  { id: "address", label: "Địa Chỉ" },
+  { id: "age", label: "Tuổi" },
+  { id: "className", label: "Lớp" },
 ];
 
-function EnhancedTableHead(props) {
-  const {
-    onSelectAllClick,
-    order,
-    orderBy,
-    numSelected,
-    rowCount,
-    onRequestSort,
-  } = props;
-  const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
-  };
+function TableUser() {
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("name");
+  const [selectedClass, setSelectedClass] = useState("Tất cả");
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  return (
-    <TableHead>
-      <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              "aria-label": "select all desserts",
-            }}
-          />
-        </TableCell>
-        {headCells.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            align={headCell.numeric ? "right" : "left"}
-            padding={headCell.disablePadding ? "none" : "normal"}
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
-                </Box>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  );
-}
-
-EnhancedTableHead.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(["asc", "desc"]).isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
-};
-
-function EnhancedTableToolbar(props) {
-  const { numSelected } = props;
-  return (
-    <Toolbar
-      sx={[
-        {
-          pl: { sm: 2 },
-          pr: { xs: 1, sm: 1 },
-        },
-        numSelected > 0 && {
-          bgcolor: (theme) =>
-            alpha(
-              theme.palette.primary.main,
-              theme.palette.action.activatedOpacity
-            ),
-        },
-      ]}
-    >
-      {numSelected > 0 ? (
-        <Typography
-          sx={{ flex: "1 1 100%" }}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Typography
-          sx={{ flex: "1 1 100%" }}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
-          Quản lý
-        </Typography>
-      )}
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
-    </Toolbar>
-  );
-}
-
-EnhancedTableToolbar.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-};
-
-export default function TableUser() {
-  const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("calories");
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  const handleRequestSort = (event, property) => {
+  const handleRequestSort = (property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelected = rows.map((n) => n.id);
-      setSelected(newSelected);
-      return;
-    }
-    setSelected([]);
+  const handleChangeClass = (event) => {
+    setSelectedClass(event.target.value);
   };
 
-  const handleClick = (event, id) => {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
+  const filteredRows =
+    selectedClass === "Tất cả"
+      ? rows
+      : rows.filter((row) => row.className === selectedClass);
 
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-    setSelected(newSelected);
-  };
+  const sortedRows = useMemo(() => {
+    return [...filteredRows].sort((a, b) => {
+      if (orderBy === "age") {
+        return order === "asc" ? a.age - b.age : b.age - a.age;
+      } else {
+        return order === "asc"
+          ? a[orderBy].localeCompare(b[orderBy])
+          : b[orderBy].localeCompare(a[orderBy]);
+      }
+    });
+  }, [filteredRows, order, orderBy]);
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
-
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-
-  const visibleRows = React.useMemo(
-    () =>
-      [...rows]
-        .sort(getComparator(order, orderBy))
-        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [order, orderBy, page, rowsPerPage]
+  const visibleRows = sortedRows.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage
   );
+
+  const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Paper sx={{ width: "100%", mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <TableContainer>
-          <Table
-            sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
-            size={dense ? "small" : "medium"}
-          >
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
-            />
-            <TableBody>
-              {visibleRows.map((row, index) => {
-                const isItemSelected = selected.includes(row.id);
-                const labelId = `enhanced-table-checkbox-${index}`;
+    <div style={{ width: "100%", padding: "20px" }}>
+      <h2>Quản lý sinh viên</h2>
 
-                return (
-                  <TableRow
-                    hover
-                    onClick={(event) => handleClick(event, row.id)}
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={row.id}
-                    selected={isItemSelected}
-                    sx={{ cursor: "pointer" }}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        color="primary"
-                        checked={isItemSelected}
-                        inputProps={{
-                          "aria-labelledby": labelId,
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell
-                      component="th"
-                      id={labelId}
-                      scope="row"
-                      padding="none"
-                      sx={{ width: "20%" }} // Điều chỉnh độ rộng cột Tên Sinh Viên
-                    >
-                      {row.name}
-                    </TableCell>
-                    <TableCell align="left" sx={{ width: "20%" }}>
-                      {row.email}
-                    </TableCell>
-                    <TableCell align="left" sx={{ width: "15%" }}>
-                      {row.phone}
-                    </TableCell>
-                    <TableCell align="left" sx={{ width: "20%" }}>
-                      {row.address}
-                    </TableCell>
-                    <TableCell align="right" sx={{ width: "10%" }}>
-                      {row.age}
-                    </TableCell>
-                    <TableCell align="left" sx={{ width: "15%" }}>
-                      {row.className}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
-      <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      />
-    </Box>
+      <div style={{ marginBottom: "20px" }}>
+        <label style={{ marginRight: "10px" }}>Lọc theo lớp:</label>
+        <select value={selectedClass} onChange={handleChangeClass}>
+          {classOptions.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <table style={{ width: "100%", borderCollapse: "collapse" }}>
+        <thead>
+          <tr>
+            {headCells.map((headCell) => (
+              <th
+                key={headCell.id}
+                onClick={() => handleRequestSort(headCell.id)}
+                style={{
+                  cursor: "pointer",
+                  borderBottom: "2px solid #ddd",
+                  padding: "10px",
+                }}
+              >
+                {headCell.label}
+                {orderBy === headCell.id ? (
+                  order === "asc" ? (
+                    <span> ▲</span>
+                  ) : (
+                    <span> ▼</span>
+                  )
+                ) : null}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {visibleRows.map((row) => (
+            <tr key={row.id}>
+              <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>
+                {row.code}
+              </td>
+              <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>
+                {row.name}
+              </td>
+              <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>
+                {row.email}
+              </td>
+              <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>
+                {row.phone}
+              </td>
+              <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>
+                {row.address}
+              </td>
+              <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>
+                {row.age}
+              </td>
+              <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>
+                {row.className}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <div style={{ marginTop: "20px" }}>
+        <button
+          disabled={page === 0}
+          onClick={() => setPage((prev) => prev - 1)}
+        >
+          Trang trước
+        </button>
+        <span style={{ margin: "0 10px" }}>
+          Trang {page + 1} / {totalPages}
+        </span>
+        <button
+          disabled={page + 1 >= totalPages}
+          onClick={() => setPage((prev) => prev + 1)}
+        >
+          Trang sau
+        </button>
+      </div>
+    </div>
   );
 }
+
+export default TableUser;
