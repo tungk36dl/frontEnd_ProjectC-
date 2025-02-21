@@ -5,35 +5,36 @@ import "sweetalert2/dist/sweetalert2.css";
 import SERVER_URL from "../../Constant";
 import { Edit as EditIcon } from "@mui/icons-material";
 
-const EditCohort = ({ onReload, cohort = {} }) => {
+const EditSubject = ({ onReload, subject = {} }) => {
   const [showModal, setShowModal] = useState(false);
-  const [cohortData, setCohortData] = useState({ cohortName: "" });
+  const [cohortData, setCohortData] = useState({ subjectName: "" });
 
-  // Hàm gọi API lấy thông tin chi tiết của Cohort
+  // Hàm gọi API lấy thông tin chi tiết củasubject
   const fetchCohortDetails = async () => {
     try {
       const jwtToken = localStorage.getItem("jwtToken");
 
-      const response = await fetch(
-        SERVER_URL + `/get-cohort-detail/${cohort.id}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(SERVER_URL + `/get-subject`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: subject.id,
+          Keyword: "",
+        }),
+      });
 
       if (!response.ok) {
         throw new Error("Lấy thông tin chi tiết thất bại!");
       }
 
       const data = await response.json();
-      // Giả sử API trả về đối tượng chứa trường cohortName (có thể có các trường khác nếu cần)
-      setCohortData({ cohortName: data.cohortName });
+      // Giả sử API trả về đối tượng chứa trườngsubjectName (có thể có các trường khác nếu cần)
+      setCohortData({ subjectName: data.subjectName });
     } catch (error) {
-      console.error("Error fetching cohort details:", error);
+      console.error("Error fetchingsubject details:", error);
       throw error;
     }
   };
@@ -41,8 +42,8 @@ const EditCohort = ({ onReload, cohort = {} }) => {
   // Hàm mở modal, trước đó gọi API để lấy thông tin mới nhất
   const openModal = async () => {
     try {
-      if (!cohort.id) {
-        throw new Error("Không tìm thấy Cohort ID!");
+      if (!subject.id) {
+        throw new Error("Không tìm thấy subject ID!");
       }
       await fetchCohortDetails();
       setShowModal(true);
@@ -52,7 +53,7 @@ const EditCohort = ({ onReload, cohort = {} }) => {
   };
 
   const handleChange = (e) => {
-    setCohortData({ cohortName: e.target.value });
+    setCohortData({ subjectName: e.target.value });
   };
 
   const handleSubmit = async (e) => {
@@ -60,19 +61,19 @@ const EditCohort = ({ onReload, cohort = {} }) => {
     try {
       const jwtToken = localStorage.getItem("jwtToken");
 
-      if (!cohort.id) {
-        throw new Error("Không tìm thấy Cohort ID!");
+      if (!subject.id) {
+        throw new Error("Không tìm thấy subject ID!");
       }
 
-      const response = await fetch(SERVER_URL + "/update-cohort", {
+      const response = await fetch(SERVER_URL + "/update-subject", {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${jwtToken}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          id: cohort.id,
-          cohortName: cohortData.cohortName,
+          id: subject.id,
+          SubjectName: cohortData.subjectName,
         }),
       });
 
@@ -104,16 +105,16 @@ const EditCohort = ({ onReload, cohort = {} }) => {
       </button>
       <Modal isOpen={showModal} onRequestClose={() => setShowModal(false)}>
         <form onSubmit={handleSubmit}>
-          <h2>Chỉnh sửa Cohort</h2>
+          <h2>Chỉnh sửa subject</h2>
           <table className="edit-cohort-table">
             <tbody>
               <tr>
-                <td>Tên Cohort:</td>
+                <td>Tên Subject:</td>
                 <td>
                   <input
                     type="text"
-                    name="cohortName"
-                    value={cohortData.cohortName}
+                    name="subjectName"
+                    value={cohortData.subjectName}
                     onChange={handleChange}
                     required
                   />
@@ -133,4 +134,4 @@ const EditCohort = ({ onReload, cohort = {} }) => {
   );
 };
 
-export default EditCohort;
+export default EditSubject;

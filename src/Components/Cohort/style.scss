@@ -54,3 +54,29 @@
   background-color: #ccc;
   cursor: not-allowed;
 }
+.editCohort {
+  background-color: rgb(60, 185, 239);
+  color: white;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  width: 30px;
+  height: 30px;
+}
+.delete-button {
+  background-color: rgb(228, 21, 10);
+  color: white;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  width: 30px;
+  height: 30px;
+  margin-left: 10px;
+}
+.edit_delete {
+  display: flex;
+}

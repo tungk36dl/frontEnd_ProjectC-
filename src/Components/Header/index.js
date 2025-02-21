@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import {
@@ -29,12 +28,11 @@ function Header({ setIsAuthenticated }) {
   //   }
   // }, []);
 
-    const roles = localStorage.getItem("userRoles");
- 
+  const roles = localStorage.getItem("userRoles");
 
   const pages = useMemo(() => {
     const commonPages = [{ label: "Home", path: "/home" }];
-    if(roles == null) {
+    if (roles == null) {
       return [...commonPages];
     }
     if (roles.includes("admin")) {
@@ -42,6 +40,7 @@ function Header({ setIsAuthenticated }) {
         ...commonPages,
         { label: "Teacher", path: "/teacher" },
         { label: "Student", path: "/student" },
+        { label: "Class", path: "/class" },
         { label: "Score", path: "/score" },
         { label: "Subject", path: "/subject" },
         { label: "SubjectDetail", path: "/subjectDetail" },
@@ -117,7 +116,10 @@ function Header({ setIsAuthenticated }) {
             >
               {pages.map(({ label, path }) => (
                 <MenuItem key={label} onClick={() => setAnchorElNav(null)}>
-                  <NavLink to={path} style={{ textDecoration: "none", color: "inherit" }}>
+                  <NavLink
+                    to={path}
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
                     <Typography textAlign="center">{label}</Typography>
                   </NavLink>
                 </MenuItem>
@@ -128,7 +130,12 @@ function Header({ setIsAuthenticated }) {
           {/* Desktop Menu */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map(({ label, path }) => (
-              <Button key={label} component={NavLink} to={path} sx={{ my: 2, color: "white" }}>
+              <Button
+                key={label}
+                component={NavLink}
+                to={path}
+                sx={{ my: 2, color: "white" }}
+              >
                 {label}
               </Button>
             ))}
@@ -137,7 +144,10 @@ function Header({ setIsAuthenticated }) {
           {/* User Avatar Menu */}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
-              <IconButton onClick={(e) => setAnchorElUser(e.currentTarget)} sx={{ p: 0 }}>
+              <IconButton
+                onClick={(e) => setAnchorElUser(e.currentTarget)}
+                sx={{ p: 0 }}
+              >
                 <Avatar alt="User Avatar" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
@@ -148,7 +158,10 @@ function Header({ setIsAuthenticated }) {
               sx={{ mt: "45px" }}
             >
               <MenuItem onClick={() => setAnchorElUser(null)}>
-                <NavLink to="/profile" style={{ textDecoration: "none", color: "inherit" }}>
+                <NavLink
+                  to="/profile"
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
                   <Typography textAlign="center">Profile</Typography>
                 </NavLink>
               </MenuItem>
@@ -164,4 +177,3 @@ function Header({ setIsAuthenticated }) {
 }
 
 export default Header;
-

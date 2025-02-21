@@ -2,8 +2,8 @@ import React from "react";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
 import SERVER_URL from "../../Constant";
-
-const DeleteMajor = ({ cohortId, onReload }) => {
+import { Delete as DeleteIcon } from "@mui/icons-material";
+const DeleteMajor = ({ majorId, onReload }) => {
   const handleDelete = async () => {
     const confirmDelete = await Swal.fire({
       title: "Bạn có chắc chắn muốn xóa?",
@@ -20,7 +20,7 @@ const DeleteMajor = ({ cohortId, onReload }) => {
       try {
         const jwtToken = localStorage.getItem("jwtToken");
 
-        const response = await fetch(`${SERVER_URL}/delete-major/${cohortId}`, {
+        const response = await fetch(`${SERVER_URL}/delete-major/${majorId}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${jwtToken}`,
@@ -42,7 +42,7 @@ const DeleteMajor = ({ cohortId, onReload }) => {
 
   return (
     <button onClick={handleDelete} className="delete-button">
-      Xóa
+      <DeleteIcon />
     </button>
   );
 };

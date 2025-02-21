@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from "react";
 import SERVER_URL from "../../Constant";
 import EditCohort from "../Cohort/EditCohort";
@@ -19,7 +17,7 @@ function TableUser({ reload }) {
   const [datas, setDatas] = useState([]);
   const [classes, setClasses] = useState([]);
   const [selectedClass, setSelectedClass] = useState("");
-  
+
   const [pageIndex, setPageIndex] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [totalItems, setTotalItems] = useState(0);
@@ -105,7 +103,10 @@ function TableUser({ reload }) {
         <thead>
           <tr>
             {headCells.map((headCell) => (
-              <th key={headCell.id} style={{ borderBottom: "2px solid #ddd", padding: "10px" }}>
+              <th
+                key={headCell.id}
+                style={{ borderBottom: "2px solid #ddd", padding: "10px" }}
+              >
                 {headCell.label}
               </th>
             ))}
@@ -114,16 +115,36 @@ function TableUser({ reload }) {
         <tbody>
           {datas.map((row) => (
             <tr key={row.userId}>
-              <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>{row.code}</td>
-              <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>{row.fullName}</td>
-              <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>{row.email}</td>
-              <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>{row.phone}</td>
-              <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>{row.address}</td>
-              <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>{row.age}</td>
-              <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>{row.className}</td>
+              <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>
+                {row.code}
+              </td>
+              <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>
+                {row.fullName}
+              </td>
+              <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>
+                {row.email}
+              </td>
+              <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>
+                {row.phone}
+              </td>
+              <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>
+                {row.address}
+              </td>
+              <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>
+                {row.age}
+              </td>
+              <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>
+                {row.className}
+              </td>
               <td>
-                <EditCohort cohort={row} onReload={() => getStudents(selectedClass)} />
-                <DeleteCohort cohortId={row.id} onReload={() => getStudents(selectedClass)} />
+                <EditCohort
+                  cohort={row}
+                  onReload={() => getStudents(selectedClass)}
+                />
+                <DeleteCohort
+                  cohortId={row.id}
+                  onReload={() => getStudents(selectedClass)}
+                />
               </td>
             </tr>
           ))}

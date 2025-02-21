@@ -4,9 +4,9 @@ import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
 import SERVER_URL from "../../Constant";
 
-const CreateMajor = ({ onReload }) => {
+const CreateSubject = ({ onReload }) => {
   const [show, setShow] = useState(false);
-  const [data, setData] = useState({ majorName: "" });
+  const [data, setData] = useState({ subjectName: "" });
 
   const customStyles = {
     content: {
@@ -22,7 +22,7 @@ const CreateMajor = ({ onReload }) => {
   const openModal = () => setShow(true);
   const closeModal = () => {
     setShow(false);
-    setData({ majorName: "" }); // 🔹 Reset input khi đóng modal
+    setData({ subjectName: "" }); // 🔹 Reset input khi đóng modal
   };
 
   const handleChange = (e) => {
@@ -35,7 +35,7 @@ const CreateMajor = ({ onReload }) => {
     try {
       const jwtToken = localStorage.getItem("jwtToken");
 
-      const response = await fetch(SERVER_URL + "/create-major", {
+      const response = await fetch(SERVER_URL + "/create-subject", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${jwtToken}`,
@@ -45,15 +45,15 @@ const CreateMajor = ({ onReload }) => {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to create cohort");
+        throw new Error("Failed to createsubject");
       }
 
       // 🔹 Reset input & đóng modal sau khi tạo thành công
-      setData({ majorName: "" });
+      setData({ subjectName: "" });
       setShow(false);
       onReload();
 
-      Swal.fire({ title: "Tạo Cohort thành công!", icon: "success" });
+      Swal.fire({ title: "Tạosubject thành công!", icon: "success" });
     } catch (error) {
       Swal.fire({
         title: "Có lỗi xảy ra!",
@@ -66,22 +66,22 @@ const CreateMajor = ({ onReload }) => {
   return (
     <>
       <button onClick={openModal} className="createCohort">
-        + Tạo Major
+        + Tạo Subject
       </button>
       <Modal isOpen={show} onRequestClose={closeModal} style={customStyles}>
-        <h2>Tạo Major Mới</h2>
+        <h2>Tạo Subject Mới</h2>
         <form onSubmit={handleSubmit}>
           <table className="create-cohort-table">
             <tbody>
               <tr>
                 <td>
-                  <label>Tên Major:</label>
+                  <label>Tên Subject:</label>
                 </td>
                 <td>
                   <input
                     type="text"
-                    name="majorName"
-                    value={data.majorName}
+                    name="subjectName"
+                    value={data.subjectName}
                     onChange={handleChange}
                     required
                   />
@@ -101,4 +101,4 @@ const CreateMajor = ({ onReload }) => {
   );
 };
 
-export default CreateMajor;
+export default CreateSubject;
