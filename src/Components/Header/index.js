@@ -19,18 +19,24 @@ import { Menu as MenuIcon, Adb as AdbIcon } from "@mui/icons-material";
 function Header({ setIsAuthenticated }) {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const [roles, setRoles] = useState([]);
+  // const [roles, setRoles] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const storedRoles = localStorage.getItem("userRoles");
-    if (storedRoles) {
-      setRoles(JSON.parse(storedRoles));
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedRoles = localStorage.getItem("userRoles");
+  //   if (storedRoles) {
+  //     setRoles(JSON.parse(storedRoles));
+  //   }
+  // }, []);
+
+    const roles = localStorage.getItem("userRoles");
+ 
 
   const pages = useMemo(() => {
     const commonPages = [{ label: "Home", path: "/home" }];
+    if(roles == null) {
+      return [...commonPages];
+    }
     if (roles.includes("admin")) {
       return [
         ...commonPages,

@@ -25,7 +25,6 @@ const CohortList = ({ reload }) => {
           pageIndex: pageIndex, // Nếu backend bắt đầu từ 1, thử pageIndex + 1
           pageSize: pageSize,
           keyword: "",
-          displayActiveItem: false,
         }),
       });
 
