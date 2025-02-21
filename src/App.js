@@ -9,6 +9,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Cohort from "./Components/Cohort";
 import TableTeacher from './Components/TableTeacher';
+import AddStudent from './Components/TableUser/addStudent';
 // import Cohort from "./Components/Cohort/Cohort";
 
 function App() {
@@ -40,6 +41,9 @@ function App() {
         <Route path="/teacher" element={<TableTeacher />} />
         <Route path="/cohort" element={<Cohort />} />
         <Route path="/logout" element={<Logout setIsAuthenticated={setIsAuthenticated} />} />  {/* ✅ Route Logout */}
+
+        <Route path="/add-student" element={<AddStudent />} />
+
       </Routes>
     </>
   );
