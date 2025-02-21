@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import EditCohort from "./EditCohort"; // Import component Edit
-import DeleteCohort from "./DeleteCohort"; // Import component Delete
-import "./style.scss";
-import SERVER_URL from "../../Constant";
 
-const CohortList = ({ reload }) => {
+import "./Major.scss";
+import SERVER_URL from "../../Constant";
+import EditMajor from "./EditMajor";
+import DeleteMajor from "./DeleteMajor";
+
+const MajorList = ({ reload }) => {
   const [cohorts, setCohorts] = useState([]);
   const [pageIndex, setPageIndex] = useState(1);
   const [pageSize, setPageSize] = useState(5);
@@ -15,7 +16,7 @@ const CohortList = ({ reload }) => {
     try {
       const jwtToken = localStorage.getItem("jwtToken");
 
-      const response = await fetch(SERVER_URL + "/get-all-cohort", {
+      const response = await fetch(SERVER_URL + "/get-all-major", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${jwtToken}`,
@@ -78,8 +79,8 @@ const CohortList = ({ reload }) => {
                 <tr key={row.id}>
                   <td className="cohort-td">{row.id}</td>
                   <td className="cohort-td">{row.cohortName}</td>
-                  <EditCohort cohort={row} onReload={getCohorts} />
-                  <DeleteCohort cohortId={row.id} onReload={getCohorts} />
+                  <EditMajor cohort={row} onReload={getCohorts} />
+                  <DeleteMajor cohortId={row.id} onReload={getCohorts} />
                 </tr>
               </>
             ))
@@ -126,4 +127,4 @@ const CohortList = ({ reload }) => {
   );
 };
 
-export default CohortList;
+export default MajorList;

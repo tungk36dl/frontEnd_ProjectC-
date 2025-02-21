@@ -3,8 +3,9 @@ import Modal from "react-modal";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
 import SERVER_URL from "../../Constant";
+import { ServerRouter } from "react-router-dom";
 
-const EditCohort = ({ onReload, cohort = {} }) => {
+const EditMajor = ({ onReload, cohort = {} }) => {
   const [showModal, setShowModal] = useState(false);
   const [cohortData, setCohortData] = useState({ cohortName: "" });
 
@@ -14,7 +15,7 @@ const EditCohort = ({ onReload, cohort = {} }) => {
       const jwtToken = localStorage.getItem("jwtToken");
 
       const response = await fetch(
-        SERVER_URL + "/get-cohort-detail/${cohort.id}",
+        SERVER_URL + "/get-major-detail/${cohort.id}",
         {
           method: "GET",
           headers: {
@@ -63,7 +64,7 @@ const EditCohort = ({ onReload, cohort = {} }) => {
         throw new Error("Không tìm thấy Cohort ID!");
       }
 
-      const response = await fetch(SERVER_URL + "/update-cohort", {
+      const response = await fetch(SERVER_URL + "/update-major", {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${jwtToken}`,
@@ -132,4 +133,4 @@ const EditCohort = ({ onReload, cohort = {} }) => {
   );
 };
 
-export default EditCohort;
+export default EditMajor;
