@@ -62,7 +62,10 @@ function TableUser({ reload }) {
         <thead>
           <tr>
             {headCells.map((headCell) => (
-              <th key={headCell.id} style={{ borderBottom: "2px solid #ddd", padding: "10px" }}>
+              <th
+                key={headCell.id}
+                style={{ borderBottom: "2px solid #ddd", padding: "10px" }}
+              >
                 {headCell.label}
               </th>
             ))}

@@ -1,50 +1,51 @@
 import React, { useEffect, useState } from "react";
-import EditCohort from "./EditCohort"; // Import component Edit
-import DeleteCohort from "./DeleteCohort"; // Import component Delete
-import "./style.scss";
+import "./Major.scss";
 import SERVER_URL from "../../Constant";
+import EditMajor from "./EditMajor";
+import DeleteMajor from "./DeleteMajor";
 
-const CohortList = ({ reload }) => {
-  const [cohorts, setCohorts] = useState([]);
+const MajorList = ({ reload }) => {
+  const [major, setmajor] = useState([]);
   const [pageIndex, setPageIndex] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [totalItems, setTotalItems] = useState(0);
 
   // 🔹 Gọi API lấy danh sách Cohort
-  const getCohorts = async () => {
+  const getmajor = async () => {
     try {
       const jwtToken = localStorage.getItem("jwtToken");
 
-      const response = await fetch(SERVER_URL + "/get-all-cohort", {
+      const response = await fetch(`${SERVER_URL}/get-all-major`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${jwtToken}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          pageIndex: pageIndex, // Nếu backend bắt đầu từ 1, thử pageIndex + 1
+          pageIndex: pageIndex,
           pageSize: pageSize,
           keyword: "",
+          displayActiveItem: true,
         }),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to fetch cohorts");
+        throw new Error("Failed to fetch major");
       }
 
       const data = await response.json();
       console.log("API Response:", data); // Debug dữ liệu API
 
-      setCohorts(data.data || []);
+      setmajor(data.data || []);
       setTotalItems(data.totalCount || 0);
     } catch (error) {
-      console.error("Error fetching cohorts:", error);
+      console.error("Error fetching major:", error);
     }
   };
 
   // 🔹 Gọi API khi pageIndex hoặc pageSize thay đổi
   useEffect(() => {
-    getCohorts();
+    getmajor();
   }, [pageIndex, pageSize, reload]);
 
   const totalPages = Math.ceil(totalItems / pageSize);
@@ -66,21 +67,23 @@ const CohortList = ({ reload }) => {
         <thead>
           <tr>
             <th className="cohort-th">ID</th>
-            <th className="cohort-th">Cohort</th>
+            <th className="cohort-th">Major</th>
             <th className="cohort-th">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {cohorts.length > 0 ? (
-            cohorts.map((row) => (
-              <tr key={row.id}>
-                <td className="cohort-td">{row.id}</td>
-                <td className="cohort-td">{row.cohortName}</td>
-                <td className="edit_delete cohort-td">
-                  <EditCohort cohort={row} onReload={getCohorts} />
-                  <DeleteCohort cohortId={row.id} onReload={getCohorts} />
-                </td>
-              </tr>
+          {major.length > 0 ? (
+            major.map((row) => (
+              <>
+                <tr key={row.id}>
+                  <td className="cohort-td">{row.id}</td>
+                  <td className="cohort-td">{row.majorName}</td>
+                  <td className="edit_delete cohort-td">
+                    <EditMajor major={row} onReload={getmajor} />
+                    <DeleteMajor majorId={row.id} onReload={getmajor} />
+                  </td>
+                </tr>
+              </>
             ))
           ) : (
             <tr>
@@ -125,4 +128,4 @@ const CohortList = ({ reload }) => {
   );
 };
 
-export default CohortList;
+export default MajorList;

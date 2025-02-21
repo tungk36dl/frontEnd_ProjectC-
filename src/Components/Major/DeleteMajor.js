@@ -3,8 +3,7 @@ import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
 import SERVER_URL from "../../Constant";
 import { Delete as DeleteIcon } from "@mui/icons-material";
-
-const DeleteCohort = ({ cohortId, onReload }) => {
+const DeleteMajor = ({ majorId, onReload }) => {
   const handleDelete = async () => {
     const confirmDelete = await Swal.fire({
       title: "Bạn có chắc chắn muốn xóa?",
@@ -21,16 +20,13 @@ const DeleteCohort = ({ cohortId, onReload }) => {
       try {
         const jwtToken = localStorage.getItem("jwtToken");
 
-        const response = await fetch(
-          `${SERVER_URL}/delete-cohort/${cohortId}`,
-          {
-            method: "DELETE",
-            headers: {
-              Authorization: `Bearer ${jwtToken}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await fetch(`${SERVER_URL}/delete-major/${majorId}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+            "Content-Type": "application/json",
+          },
+        });
 
         if (!response.ok) {
           throw new Error("Xóa thất bại! Hãy thử lại.");
@@ -51,4 +47,4 @@ const DeleteCohort = ({ cohortId, onReload }) => {
   );
 };
 
-export default DeleteCohort;
+export default DeleteMajor;
