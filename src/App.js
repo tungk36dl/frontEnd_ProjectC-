@@ -46,6 +46,7 @@ function App() {
         <Route path="/teacher" element={<TableTeacher />} />
         <Route path="/cohort" element={<Cohort />} />
         <Route path="/add-student" element={<AddStudent />} />
+        <Route path="/score" element={<TableScore />} />
 
         <Route path="/major" element={<Major />} />
         <Route

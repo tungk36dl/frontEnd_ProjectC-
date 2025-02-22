@@ -1,54 +1,104 @@
-import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import React, { useEffect, useState } from "react";
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
+const SERVER_URL = "http://localhost:7024";
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+const StudentScoreForm = () => {
+  const [students, setStudents] = useState([]);
+  const className = "Lớp ABC"; // Lớp có sẵn
+  const subject = "Môn XYZ"; // Môn học có sẵn
+  const semester = "Học kì 1"; // Học kỳ có sẵn
 
-export default function TableScore() {
+  useEffect(() => {
+    // Gọi API lấy danh sách sinh viên
+    fetch(`${SERVER_URL}/get-student`)
+      .then((res) => res.json())
+      .then((data) => setStudents(data))
+      .catch((error) => console.error("Lỗi tải danh sách sinh viên:", error));
+  }, []);
+
+  // Xử lý thay đổi điểm chuyên cần và điểm thi
+  const handleChange = (studentId, field, value) => {
+    setStudents((prevStudents) =>
+      prevStudents.map((student) =>
+        student.studentId === studentId ? { ...student, [field]: value } : student
+      )
+    );
+  };
+
+  // Gửi dữ liệu đã chỉnh sửa lên API
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch(`${SERVER_URL}/update-score-student`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(students),
+      });
+
+      if (!response.ok) throw new Error("Lỗi cập nhật điểm");
+      alert("Cập nhật điểm thành công!");
+    } catch (error) {
+      console.error("Lỗi:", error);
+      alert("Cập nhật điểm thất bại!");
+    }
+  };
+
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
-            </TableRow>
+    <div>
+      <h2>Nhập điểm sinh viên</h2>
+      <p><strong>Lớp:</strong> {className}</p>
+      <p><strong>Môn học:</strong> {subject}</p>
+      <p><strong>Học kỳ:</strong> {semester}</p>
+
+      <table border="1">
+        <thead>
+          <tr>
+            <th>Mã sinh viên</th>
+            <th>Họ và tên</th>
+            <th>Điểm chuyên cần</th>
+            <th>Điểm thi</th>
+            <th>Điểm tổng</th>
+            <th>Điểm chữ</th>
+            <th>GPA</th>
+          </tr>
+        </thead>
+        <tbody>
+          {students.map((student) => (
+            <tr key={student.studentId}>
+              <td>{student.studentId}</td>
+              <td>{student.fullName}</td>
+              <td>
+                <input
+                  type="number"
+                  min="0"
+                  max="10"
+                  value={student.attendance || ""}
+                  onChange={(e) =>
+                    handleChange(student.studentId, "attendance", e.target.value)
+                  }
+                />
+              </td>
+              <td>
+                <input
+                  type="number"
+                  min="0"
+                  max="10"
+                  value={student.exam || ""}
+                  onChange={(e) =>
+                    handleChange(student.studentId, "exam", e.target.value)
+                  }
+                />
+              </td>
+              <td>{student.totalScore}</td>
+              <td>{student.letterGrade}</td>
+              <td>{student.gpa}</td>
+            </tr>
           ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+        </tbody>
+      </table>
+
+      <button onClick={handleSubmit}>Submit</button>
+    </div>
   );
-}
+};
+
+export default StudentScoreForm;
