@@ -32,7 +32,7 @@ const DeleteMajor = ({ majorId, onReload }) => {
           throw new Error("Xóa thất bại! Hãy thử lại.");
         }
 
-        Swal.fire("Đã xóa!", "Cohort đã được xóa thành công.", "success");
+        Swal.fire("Đã xóa!", "Major đã được xóa thành công.", "success");
         onReload(); // Cập nhật danh sách
       } catch (error) {
         Swal.fire("Lỗi!", error.message, "error");

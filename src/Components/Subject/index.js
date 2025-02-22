@@ -11,7 +11,7 @@ function Subject() {
 
   return (
     <>
-      <h2 className="h2-cohort">Cohort List</h2>
+      <h2 className="h2-cohort">Subject List</h2>
       <CreateSubject onReload={handleReload} />
       <SubjectList reload={reload} />
     </>

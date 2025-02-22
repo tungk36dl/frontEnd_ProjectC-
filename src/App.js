@@ -8,11 +8,12 @@ import Logout from "./Components/Logout"; // ✅ Import component Logout
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Cohort from "./Components/Cohort";
-import TableTeacher from './Components/TableTeacher';
-import AddStudent from './Components/TableUser/addStudent';
+import TableTeacher from "./Components/TableTeacher";
+import AddStudent from "./Components/TableUser/addStudent";
 import Major from "./Components/Major";
 import Subject from "./Components/Subject";
 import SubjectDetail from "./Components/SubjectDetail";
+import Class from "./Components/Class";
 // import Cohort from "./Components/Cohort/Cohort";
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/student" element={<TableUser />} />
         <Route path="/Subject" element={<Subject />} />
+        <Route path="/class" element={<Class />} />
         <Route path="/subjectDetail" element={<SubjectDetail />} />
         <Route path="/teacher" element={<TableTeacher />} />
         <Route path="/cohort" element={<Cohort />} />

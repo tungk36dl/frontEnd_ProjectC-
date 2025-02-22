@@ -11,7 +11,7 @@ function Major() {
 
   return (
     <>
-      <h2 className="h2-cohort">Cohort List</h2>
+      <h2 className="h2-cohort">Major List</h2>
       <CreateMajor onReload={handleReload} />
       <MajorList reload={reload} />
     </>
