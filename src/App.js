@@ -12,6 +12,7 @@ import TableTeacher from './Components/TableTeacher';
 import AddStudent from './Components/TableUser/addStudent';
 import Major from "./Components/Major";
 import Subject from "./Components/Subject";
+import SubjectDetail from "./Components/SubjectDetail";
 // import Cohort from "./Components/Cohort/Cohort";
 
 function App() {
@@ -41,10 +42,9 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/student" element={<TableUser />} />
         <Route path="/Subject" element={<Subject />} />
+        <Route path="/subjectDetail" element={<SubjectDetail />} />
         <Route path="/teacher" element={<TableTeacher />} />
         <Route path="/cohort" element={<Cohort />} />
-  
-
         <Route path="/add-student" element={<AddStudent />} />
 
         <Route path="/major" element={<Major />} />

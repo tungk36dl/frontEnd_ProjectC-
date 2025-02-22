@@ -51,6 +51,8 @@ function TableUser({ reload }) {
     <div style={{ width: "100%", padding: "20px" }}>
       <h2>Quản lý sinh viên</h2>
       <button onClick={() => navigate("/add-student")}>Add Student</button>
+      <label style={{ marginRight: "10px" }}>Lọc theo lớp:</label>
+
       <ClassFilter
         selectedClass={selectedClass}
         onChangeClass={(value) => {

@@ -1,4 +1,8 @@
 /* AddStudent.css */
+
+.container{
+    margin: 20px 50px;
+}
 .form-container {
     max-width: 600px;
     margin: 0 auto;
