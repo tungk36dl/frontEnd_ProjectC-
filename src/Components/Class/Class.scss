@@ -1,0 +1,88 @@
+.cohort-container {
+  padding: 20px;
+}
+
+.cohort-table {
+  width: 95%;
+  border-collapse: collapse;
+}
+.createCohort {
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  padding: 8px;
+  margin-left: 20px;
+  border-radius: 5px;
+}
+.h2-cohort {
+  margin-left: 20px;
+}
+.cohort-th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  background-color: #f4f4f4;
+  width: 50%;
+}
+
+.cohort-td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.pagination {
+  margin-top: 20px;
+  width: 100%;
+  text-align: center;
+  & .RowsPerPage {
+    border-radius: 4px;
+    border: 1px solid black;
+  }
+}
+
+.pagination-button {
+  margin: 0 10px;
+  padding: 5px 10px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+}
+
+.pagination-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.editCohort {
+  background-color: rgb(60, 185, 239);
+  color: white;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  width: 30px;
+  height: 30px;
+}
+.delete-button {
+  background-color: rgb(228, 21, 10);
+  color: white;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  width: 30px;
+  height: 30px;
+  margin-left: 10px;
+}
+.edit_delete {
+  display: flex;
+}
+.findClass {
+  display: flex;
+  gap: 50px;
+  align-items: center;
+}

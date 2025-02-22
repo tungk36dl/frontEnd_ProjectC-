@@ -45,7 +45,7 @@ const CreateMajor = ({ onReload }) => {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to create cohort");
+        throw new Error("Failed to create Major");
       }
 
       // 🔹 Reset input & đóng modal sau khi tạo thành công
@@ -53,7 +53,7 @@ const CreateMajor = ({ onReload }) => {
       setShow(false);
       onReload();
 
-      Swal.fire({ title: "Tạo Cohort thành công!", icon: "success" });
+      Swal.fire({ title: "Tạo Major thành công!", icon: "success" });
     } catch (error) {
       Swal.fire({
         title: "Có lỗi xảy ra!",
