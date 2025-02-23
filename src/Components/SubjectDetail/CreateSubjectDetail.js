@@ -55,7 +55,7 @@ const CreateSubjectDetail = ({ onReload }) => {
 
   const handleSemesterChange = (value) => {
     setSelectedSemester(value);
-    setData((prev) => ({ ...prev, semesterName: value }));
+    setData((prev) => ({ ...prev, semesterCode: value }));
   };
   const handleSubmit = async (e) => {
     e.preventDefault();

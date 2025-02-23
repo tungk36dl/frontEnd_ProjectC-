@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SERVER_URL from "../../Constant";
-import "./addStudent.css";
-import { ClassFilter } from "../Helper/ClassFilter";
+import "../TableUser/addStudent.css";
 
-function AddStudent() {
-  const [selectedClass, setSelectedClass] = useState("");
+function AddTeacher() {
   const [formData, setFormData] = useState({
     code: "",
     fullName: "",
@@ -14,9 +12,8 @@ function AddStudent() {
     email: "",
     phoneNumber: "",
     address: "",
-    classesId: "", // Được cập nhật khi chọn lớp
     dateOfBirth: "",
-    roleName: "student",
+    roleName: "teacher",
   });
 
   const navigate = useNavigate();
@@ -25,10 +22,7 @@ function AddStudent() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleClassChange = (value) => {
-    setSelectedClass(value);
-    setFormData((prev) => ({ ...prev, classesId: value }));
-  };
+
 
   const validateEmail = (email) => {
     const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -74,7 +68,7 @@ function AddStudent() {
 
   return (
     <div className="container">
-      <h2>Add Student</h2>
+      <h2>Add Teacher</h2>
       <form onSubmit={handleSubmit}>
         <label>Code</label>
         <input name="code" placeholder="Code" onChange={handleChange} required />
@@ -97,9 +91,6 @@ function AddStudent() {
         <label>Address</label>
         <input name="address" placeholder="Address" onChange={handleChange} required />
 
-        <label>Class Name</label>
-        <ClassFilter selectedClass={selectedClass} onChangeClass={handleClassChange} />
-
         <label>Date of Birth</label>
         <input name="dateOfBirth" placeholder="dd/mm/yyyy" onChange={handleChange} required />
 
@@ -109,4 +100,4 @@ function AddStudent() {
   );
 }
 
-export default AddStudent;
+export default AddTeacher;

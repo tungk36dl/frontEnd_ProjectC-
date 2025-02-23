@@ -51,19 +51,14 @@ function Header({ setIsAuthenticated }) {
     if (roles.includes("teacher")) {
       return [
         ...commonPages,
-        { label: "Teacher", path: "/teacher" },
-        { label: "Student", path: "/student" },
-        { label: "Score", path: "/score" },
-        { label: "Cohort", path: "/cohort" },
+        { label: "Score", path: "/score-teacher" },
       ];
     }
 
     if (roles.includes("student")) {
       return [
         ...commonPages,
-        { label: "Student", path: "/student" },
-        { label: "Score", path: "/score" },
-        { label: "Cohort", path: "/cohort" },
+        { label: "Score", path: "/score-student" },
       ];
     }
     return commonPages;

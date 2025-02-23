@@ -3,18 +3,21 @@ import React, { useState, useMemo, useEffect } from "react";
 import SERVER_URL from "../../Constant";
 import EditCohort from "../Cohort/EditCohort";
 import DeleteCohort from "../Cohort/DeleteCohort";
+import { useNavigate } from "react-router-dom";
+
+import "./TableTeacher.css";
 
 
 
 
 const headCells = [
   { id: "code", label: "Code" },
-  { id: "name", label: "Tên Sinh Viên" },
+  { id: "fullName", label: "Tên Giảng viên" },
+  { id: "userName", label: "UserName" },
+  { id: "dateOfBirth", label: "Năm sinh" },
   { id: "email", label: "Email" },
   { id: "phone", label: "Số Điện Thoại" },
   { id: "address", label: "Địa Chỉ" },
-  { id: "age", label: "Tuổi" },
-  { id: "className", label: "Lớp" },
 ];
 
 function TableTeacher({ reload }) {
@@ -23,6 +26,9 @@ function TableTeacher({ reload }) {
    const [pageIndex, setPageIndex] = useState(1);
     const [pageSize, setPageSize] = useState(5);
     const [totalItems, setTotalItems] = useState(0);
+
+    const navigate = useNavigate();
+
 
   //   const [order, setOrder] = useState("asc");
   // const [orderBy, setOrderBy] = useState("name");
@@ -83,7 +89,8 @@ function TableTeacher({ reload }) {
 
   return (
     <div style={{ width: "100%", padding: "20px" }}>
-      <h2>Quản lý sinh viên</h2>
+      <h2>Quản lý Giảng viên</h2>
+      <button onClick={() => navigate("/add-teacher")}>Add Teacher</button>
 
       {/* <div style={{ marginBottom: "20px" }}>
         <label style={{ marginRight: "10px" }}>Lọc theo lớp:</label>
@@ -106,7 +113,7 @@ function TableTeacher({ reload }) {
                 style={{
                   cursor: "pointer",
                   borderBottom: "2px solid #ddd",
-                  padding: "10px",
+                  
                 }}
               >
                 {headCell.label}
@@ -124,39 +131,40 @@ function TableTeacher({ reload }) {
         <tbody>
           {datas.map((row) => (
             <tr key={row.id}>
-              <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>
+              <td style={{  borderBottom: "1px solid #ddd" }}>
                 {row.code}
               </td>
-              <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>
-                {row.name}
+              <td style={{  borderBottom: "1px solid #ddd" }}>
+                {row.fullName}
               </td>
-              <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>
+              <td style={{  borderBottom: "1px solid #ddd" }}>
+                {row.userName}
+              </td>
+              <td style={{  borderBottom: "1px solid #ddd" }}>
+                {row.dateOfBith}
+              </td>
+              <td style={{  borderBottom: "1px solid #ddd" }}>
                 {row.email}
               </td>
-              <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>
-                {row.phone}
+              <td style={{  borderBottom: "1px solid #ddd" }}>
+                {row.phoneNumber}
               </td>
-              <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>
+              <td style={{  borderBottom: "1px solid #ddd" }}>
                 {row.address}
               </td>
-              <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>
-                {row.age}
-              </td>
-              <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>
-                {row.className}
-              </td>
+             
 
-              <td className="cohort-td">
-                  <EditCohort cohort={row} onReload={getTeachers} />
-                  <DeleteCohort cohortId={row.id} onReload={getTeachers} />
-                </td>
+              {/* <td className="cohort-td">
+                  <EditStudent cohort={row} onReload={getTeachers} />
+                  <DeleteStudent cohortId={row.id} onReload={getTeachers} />
+                </td> */}
             </tr>
           ))}
         </tbody>
       </table>
 
        {/* Phân trang */}
-       <div className="pagination">
+       {/* <div className="pagination">
         <span>Rows per page: </span>
         <select
           className="RowsPerPage"
@@ -183,7 +191,7 @@ function TableTeacher({ reload }) {
         >
           Next
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }

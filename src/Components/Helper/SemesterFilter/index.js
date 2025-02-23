@@ -21,7 +21,7 @@ export const SemesterFilter = ({ selectedSemester, onChangeSemester }) => {
     >
       <option disabled value="">Select Semester</option>
       {semesters.map((semester) => (
-        <option key={semester.id} value={semester.name}>
+        <option key={semester.id} value={semester.id}>
           {semester.name}
         </option>
       ))}

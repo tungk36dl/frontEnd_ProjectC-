@@ -9,7 +9,6 @@ const headCells = [
   { id: "email", label: "Email" },
   { id: "phone", label: "Số Điện Thoại" },
   { id: "address", label: "Địa Chỉ" },
-  { id: "age", label: "Tuổi" },
   { id: "className", label: "Lớp" },
 ];
 
@@ -79,12 +78,19 @@ function TableUser({ reload }) {
               <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>{row.code}</td>
               <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>{row.fullName}</td>
               <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>{row.email}</td>
-              <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>{row.phone}</td>
+              <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>{row.phoneName}</td>
               <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>{row.address}</td>
               <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>{row.age}</td>
               <td style={{ padding: "8px", borderBottom: "1px solid #ddd" }}>{row.className}</td>
+
+                  {/* <td className="cohort-td">
+                  <EditStudent cohort={row} onReload={getTeachers} />
+                  <DeleteStudent cohortId={row.id} onReload={getTeachers} />
+                </td> */}
             </tr>
           ))}
+
+          
         </tbody>
       </table>
     </div>
