@@ -46,7 +46,7 @@ const ScoreTeacher = ({ reload }) => {
   // Xử lý thay đổi điểm chuyên cần và điểm thi
   const handleChange = (studentId, field, value) => {
     const newValue = value ? parseFloat(value) : 0;
-    
+
     // Cập nhật điểm trong danh sách sinh viên
     setStudents((prevStudents) =>
       prevStudents.map((student) =>
@@ -60,7 +60,10 @@ const ScoreTeacher = ({ reload }) => {
       if (existingIndex !== -1) {
         // Nếu đã có, cập nhật giá trị
         const updatedList = [...prevScores];
-        updatedList[existingIndex] = { ...updatedList[existingIndex], [field]: newValue };
+        updatedList[existingIndex] = {
+          ...updatedList[existingIndex],
+          [field]: newValue,
+        };
         return updatedList;
       } else {
         // Nếu chưa có, thêm mới vào danh sách cập nhật
@@ -69,9 +72,17 @@ const ScoreTeacher = ({ reload }) => {
           {
             Id: studentId,
             UserId: students.find((s) => s.id === studentId)?.userId || "",
-            SubjectDetailId: students.find((s) => s.id === studentId)?.subjectDetailId || "",
-            AttendanceScore: field === "attendanceScore" ? newValue : students.find((s) => s.id === studentId)?.attendanceScore || 0,
-            TestScore: field === "testScore" ? newValue : students.find((s) => s.id === studentId)?.testScore || 0,
+            SubjectDetailId:
+              students.find((s) => s.id === studentId)?.subjectDetailId || "",
+            AttendanceScore:
+              field === "attendanceScore"
+                ? newValue
+                : students.find((s) => s.id === studentId)?.attendanceScore ||
+                  0,
+            TestScore:
+              field === "testScore"
+                ? newValue
+                : students.find((s) => s.id === studentId)?.testScore || 0,
           },
         ];
       }
@@ -114,7 +125,6 @@ const ScoreTeacher = ({ reload }) => {
           onChangeSubjectDetail={(value) => setSelectedSubjectDetail(value)}
         />
       </div>
-     
 
       <table border="1">
         <thead>

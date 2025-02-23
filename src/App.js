@@ -18,6 +18,7 @@ import AddTeacher from "./Components/TableTeacher/addTeacher";
 import ScoreTeacher from "./Components/TableScore/scoreTeacher";
 import StudentScoreForm from "./Components/TableScore/scorePDT";
 import ScoreStudent from "./Components/TableScore/scoreStudent";
+import Error404 from "./Components/Error404";
 // import Cohort from "./Components/Cohort/Cohort";
 
 function App() {
@@ -51,7 +52,6 @@ function App() {
         <Route path="/subjectDetail" element={<SubjectDetail />} />
         <Route path="/teacher" element={<TableTeacher />} />
         <Route path="/add-teacher" element={<AddTeacher />} />
-
         <Route path="/cohort" element={<Cohort />} />
         <Route path="/add-student" element={<AddStudent />} />
         <Route path="/score" element={<StudentScoreForm />} />
@@ -59,7 +59,7 @@ function App() {
         <Route path="/score-teacher" element={<ScoreTeacher />} />
         {/* Danh cho Student */}
         <Route path="/score-student" element={<ScoreStudent />} />
-
+        <Route path="*" element={<Error404 />} />
         <Route path="/major" element={<Major />} />
         <Route
           path="/logout"
